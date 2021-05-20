@@ -1,11 +1,14 @@
+import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
 public class Number {
 
-    static final Pattern WHOLE_NUMBER_PATTERN = Pattern.compile("\\+?\\d+");
-    static final Pattern NATURAL_NUMBER_PATTERN = Pattern.compile("\\+?[1-9]\\d*");
+    // NOTE: remove the number formatter if it doesn't pass the Hyperskill tests!
+    private static final NumberFormat NUMBER_FORMAT = NumberFormat.getIntegerInstance();
+    private static final Pattern WHOLE_NUMBER_PATTERN = Pattern.compile("\\+?\\d+");
+    private static final Pattern NATURAL_NUMBER_PATTERN = Pattern.compile("\\+?[1-9]\\d*");
     private final long value;
     private final String string;
     private final Map<Property, Boolean> propertyValues = new HashMap<>();
@@ -73,7 +76,7 @@ public class Number {
     }
 
     public void displayNumberAsSingleton() {
-        StringBuilder printSb = new StringBuilder("Properties of ").append(this.string).append("\n");
+        StringBuilder printSb = new StringBuilder("Properties of ").append(NUMBER_FORMAT.format(this.value)).append("\n");
         for (Property property : Property.values()) {
             printSb.append(property.getNameInLowerCase()).append(": ").append(this.getPropertyValue(property)).append("\n");
         }
@@ -81,7 +84,7 @@ public class Number {
     }
 
     public void displayNumberAsMember() {
-        StringBuilder propertySb = new StringBuilder(this.string).append(" is ");
+        StringBuilder propertySb = new StringBuilder(NUMBER_FORMAT.format(this.value)).append(" is ");
         for (Property property : Property.values()) {
             if (this.getPropertyValue(property)) {
                 propertySb.append(property.getNameInLowerCase()).append(", ");
